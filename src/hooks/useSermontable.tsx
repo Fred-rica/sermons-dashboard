@@ -26,7 +26,7 @@ export default function useSermonTable() {
 
   const initialState: FilterState = {
     page: 1,
-    searchString: " ",
+    searchString:"",
   };
 
   const queryReducer = (

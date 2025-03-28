@@ -19,11 +19,11 @@ const Topnav = () => {
         />
         <div className="flex w-3/5 justify-between items-center">
           <SearchInput
-            value={filterState?.searchString}
-            onChange={(e) =>
-              setFilters({ field: "searchString", value: e.target.value })
-            }
-            placeholder={"Search sermon, playlist, series or anything..."}
+            value={filterState.searchString}
+            onChange={(e) => {
+              setFilters({ field: "searchString", value: e.target.value });
+            }}
+            placeholder={"Search sermon,playlist,series or anything..."}
             className="hidden md:flex"
           />
 
