@@ -29,7 +29,6 @@ const lufga = localFont({
   variable: "--font-lufga",
 });
 
-
 export const metadata: Metadata = {
   title: "Edify App",
   description: "Edify - Stream Inspiring Sermons Anytime, Anywhere",

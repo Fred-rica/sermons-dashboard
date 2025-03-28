@@ -5,4 +5,4 @@ export interface sidebarItems {
   icon: JSX.Element;
   alt: string;
   link: string;
-};
+}

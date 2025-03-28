@@ -4,20 +4,24 @@ import Button from "@/components/common/Button";
 import SearchInput from "@/components/common/SearchInput";
 import { Icons } from "@/components/common/SvgIcons";
 import SermonTable from "@/components/SermonTable";
-import { useState } from "react";
+import useSermonTable from "@/hooks/useSermontable";
 
 export default function Home() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const { filterState, setFilters, filteredSermons, setPage } =
+    useSermonTable();
   return (
     <section className="w-full">
       <p className="font-medium text-xl">Sermons</p>
       <div className="py-6  rounded-t-4xl flex md:flex-row flex-col justify-between bg-white shadow-card mt-7 items-center px-4  md:gap-0 gap-4 ">
         <SearchInput
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder={"Search sermon.."}
+          value={filterState.searchString}
+          onChange={(e) => {
+            setFilters({ field: "searchString", value: e.target.value });
+          }}
+          placeholder="Search sermon.."
         />
-        <div className="flex gap-4">
+
+        <div className="flex md:gap-4 gap-0 justify-between md:justify-end w-full">
           <Button
             text="Filter By"
             variant="primary"
@@ -32,7 +36,11 @@ export default function Home() {
         </div>
       </div>
 
-      <SermonTable />
+      <SermonTable
+        paginatedData={filteredSermons}
+        setPage={setPage}
+        filterState={filterState}
+      />
     </section>
   );
 }

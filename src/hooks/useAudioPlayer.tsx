@@ -3,37 +3,47 @@ import { useState, useRef } from "react";
 const useAudioPlayer = () => {
   const [currentAudioUrl, setCurrentAudioUrl] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const handlePlayPause = (audioUrl: string) => {
     if (!audioRef.current) {
       audioRef.current = new Audio(audioUrl);
-      audioRef.current.onended = () => setIsPlaying(false); // Reset when audio ends
+      setupAudioEvents(audioRef.current);
     }
 
     if (currentAudioUrl === audioUrl) {
-      // Toggle play/pause if the same audio is selected
       if (isPlaying) {
         audioRef.current.pause();
         setIsPlaying(false);
       } else {
+        setIsLoading(true);
         audioRef.current.play();
-        setIsPlaying(true);
       }
     } else {
-      // If a new audio is clicked, stop previous and play new one
       if (audioRef.current) {
         audioRef.current.pause();
       }
+
       audioRef.current = new Audio(audioUrl);
-      audioRef.current.onended = () => setIsPlaying(false); // Reset when new audio ends
-      audioRef.current.play();
+      setupAudioEvents(audioRef.current);
       setCurrentAudioUrl(audioUrl);
-      setIsPlaying(true);
+      setIsLoading(true);
+      audioRef.current.play();
     }
   };
 
-  return { handlePlayPause, currentAudioUrl, isPlaying };
+  const setupAudioEvents = (audio: HTMLAudioElement) => {
+    audio.onended = () => setIsPlaying(false);
+    audio.onloadstart = () => setIsLoading(true);
+    audio.oncanplay = () => setIsLoading(false);
+    audio.onplaying = () => {
+      setIsPlaying(true);
+      setIsLoading(false);
+    };
+  };
+
+  return { handlePlayPause, currentAudioUrl, isPlaying, isLoading };
 };
 
 export default useAudioPlayer;

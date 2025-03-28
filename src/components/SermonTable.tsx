@@ -3,22 +3,28 @@ import React from "react";
 import Table from "./common/Table";
 import useSermonTable from "@/hooks/useSermontable";
 import { RowData } from "@/types/table.types";
+import { FilterState } from "@/types/table.types";
 import { Icons } from "./common/SvgIcons";
 import Image from "next/image";
 import { formatTime, formatDate } from "@/utils/formatDateTime";
 import useAudioPlayer from "@/hooks/useAudioPlayer";
 
-const SermonTable = () => {
+interface SermonTableProps {
+  paginatedData: RowData[];
+  filterState: FilterState;
+  setPage: (newPage: number) => void;
+}
+const SermonTable: React.FC<SermonTableProps> = ({ paginatedData }) => {
   const {
     headers,
     handleToggleExpand,
     expandedRow,
-    sermons,
     filterState,
     setPage,
     fetching,
   } = useSermonTable();
-  const { handlePlayPause, currentAudioUrl, isPlaying } = useAudioPlayer();
+  const { handlePlayPause, currentAudioUrl, isPlaying, isLoading } =
+    useAudioPlayer();
 
   const renderRow = (rowData: RowData, index: number) => (
     <>
@@ -44,7 +50,7 @@ const SermonTable = () => {
               alt={"sermon image"}
               width={40}
               height={40}
-              className="w-[40px] h-[40px] cursor-pointer rounded-[5.77px]"
+              className="w-[40px] h-[40px] rounded-[5.77px]"
             />
 
             <div>
@@ -92,7 +98,7 @@ const SermonTable = () => {
             className="focus:outline-none cursor-pointer "
           >
             {currentAudioUrl === rowData?.audio_download_url && isPlaying ? (
-              <Icons.pause />
+              <Icons.pause isLoading={isLoading} />
             ) : (
               <Icons.play />
             )}
@@ -150,13 +156,13 @@ const SermonTable = () => {
       <Table
         headers={headers}
         renderExpandedRow={renderExpandedRow}
-        data={sermons}
         renderRow={renderRow}
         currentPage={filterState.page}
         setPage={setPage}
         expandedRow={expandedRow}
         handleToggleExpand={handleToggleExpand}
         isLoading={fetching}
+        filteredData={paginatedData}
       />
     </>
   );

@@ -1,10 +1,10 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { TableProps } from "@/types/table.types";
+import { Icons } from "./SvgIcons";
 
 const Table = <T,>({
   headers,
-  data,
   renderRow,
   renderExpandedRow,
   rowsPerPage = 10,
@@ -13,10 +13,21 @@ const Table = <T,>({
   expandedRow,
   isLoading,
   handleToggleExpand,
+  filteredData,
 }: TableProps<T>) => {
-  const totalPages = Math.ceil(data.length / rowsPerPage);
+  const totalPages = Math.ceil(filteredData.length / rowsPerPage);
   const startIndex = (currentPage - 1) * rowsPerPage;
-  const paginatedData = data.slice(startIndex, startIndex + rowsPerPage);
+  const paginatedData = filteredData.slice(
+    startIndex,
+    startIndex + rowsPerPage,
+  );
+
+  useEffect(() => {
+    const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+    if (currentPage > totalPages || currentPage === 0) {
+      setPage(1);
+    }
+  }, [filteredData.length, currentPage, rowsPerPage, setPage]);
 
   return (
     <div className="overflow-x-auto">
@@ -51,7 +62,7 @@ const Table = <T,>({
             : paginatedData.map((rowData, index) => (
                 <React.Fragment key={index}>
                   <tr
-                    className={`cursor-pointer ${
+                    className={` ${
                       expandedRow === index ? "bg-[#F1F5F9]" : ""
                     }`}
                   >
@@ -76,12 +87,18 @@ const Table = <T,>({
       {/* Pagination Controls */}
       <div className="flex justify-between py-5 bg-white px-4 rounded-b-4xl">
         <span className="text-sm text-[#676767] font-medium">
-          {startIndex + 1} - {Math.min(startIndex + rowsPerPage, data.length)}{" "}
-          of {data.length} Sermons
+          {filteredData.length === 0
+            ? "0 Sermons"
+            : `${Math.min(startIndex + 1, filteredData.length)} - 
+       ${Math.min(startIndex + rowsPerPage, filteredData.length)} 
+       of ${filteredData.length} Sermons`}
         </span>
+
         <div className="flex items-center space-x-3">
-          <div className="relative border border-[#EDEFF5] rounded-lg px-[14px] text-[#676767] bg-[#F6F7FA]  py-2 text-sm">
-            <select
+          <div className="hidden md:flex  border border-[#EDEFF5] items-center rounded-lg px-[14px] text-[#676767] bg-[#F6F7FA]  py-2 gap-2 text-sm">
+            {currentPage}
+            <Icons.arrow />
+            {/* <select
               className=" bg-[#F6F7FA] text-[#676767] outline-none cursor-pointer"
               value={currentPage}
               onChange={(e) => setPage(Number(e.target.value))}
@@ -91,7 +108,7 @@ const Table = <T,>({
                   Page {i + 1}
                 </option>
               ))}
-            </select>
+            </select> */}
           </div>
           <div className="space-x-2 flex">
             <button

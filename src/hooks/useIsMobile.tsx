@@ -8,7 +8,7 @@ const useIsMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
 
-    checkScreenSize(); 
+    checkScreenSize();
 
     window.addEventListener("resize", checkScreenSize);
 

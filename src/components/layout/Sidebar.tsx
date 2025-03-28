@@ -28,7 +28,7 @@ const Sidebar = () => {
                 "relative after:rounded-3xl after:absolute after:right-0 after:w-[4px] after:h-[36px] after:bg-[#FB394F] after:top-1/2 after:-translate-y-1/2 ":
                   isActive,
                 "": !isActive,
-              }
+              },
             )}
           >
             <button
@@ -37,7 +37,7 @@ const Sidebar = () => {
                 {
                   "text-[#1A2024] font-medium": isActive,
                   "text-[#84919A] font-normal": !isActive,
-                }
+                },
               )}
             >
               <div
@@ -46,7 +46,7 @@ const Sidebar = () => {
                   {
                     "bg-[#FB394F] ": isActive,
                     "bg-inherit": !isActive,
-                  }
+                  },
                 )}
               >
                 {React.cloneElement(items.icon, {

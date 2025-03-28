@@ -4,12 +4,11 @@ export type HeaderType = string | { label: string; icon?: React.ReactNode };
 
 export type TableProps<T> = {
   headers: HeaderType[];
-  data: T[];
   renderRow: (
     rowData: T,
     index: number,
     handleToggleExpand: (index: number) => void,
-    expandedRow: number | null
+    expandedRow: number | null,
   ) => React.ReactNode;
   renderExpandedRow?: (rowData: T) => React.ReactNode;
   rowsPerPage?: number;
@@ -17,11 +16,12 @@ export type TableProps<T> = {
   setPage: (page: number) => void;
   expandedRow: number | null;
   handleToggleExpand: (index: number) => void;
-  isLoading: boolean
+  isLoading: boolean;
+  filteredData: T[];
 };
 
 export interface RowData {
-  title: JSX.Element;
+  title: string;
   image_url: string;
   preacher?: {
     name: string;
@@ -39,8 +39,6 @@ export interface RowData {
 export type FilterState = {
   page: number;
   searchString: string;
-  searchBy: string;
-  Export: boolean;
 };
 
 export type FilterAction =

@@ -6,7 +6,7 @@ interface SearchInputProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
-  className?:string
+  className?: string;
 }
 
 const SearchInput: React.FC<SearchInputProps> = ({
@@ -19,7 +19,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
     <div
       className={cn(
         "relative md:w-[404px] w-full h-10 flex items-center border border-[#EDEFF5] space-x-3 rounded-4xl px-4",
-        className
+        className,
       )}
     >
       <Icons.search />

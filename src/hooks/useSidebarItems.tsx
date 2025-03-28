@@ -1,7 +1,6 @@
 import { sidebarItems } from "@/types/sidebarItems.types";
 import { Icons } from "@/components/common/SvgIcons";
 
-
 const useSidebarItems = (): sidebarItems[] => {
   return [
     {
@@ -49,6 +48,4 @@ const useSidebarItems = (): sidebarItems[] => {
   ];
 };
 
-
-export default useSidebarItems
-
+export default useSidebarItems;

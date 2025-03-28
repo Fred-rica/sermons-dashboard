@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 type IconProps = React.HTMLAttributes<SVGElement> & {
   stroke?: string;
   fill?: string;
@@ -356,7 +357,11 @@ export const Icons = {
       />
     </svg>
   ),
-  pause: ({ style, ...props }: IconProps) => (
+  pause: ({
+    isLoading,
+    style,
+    ...props
+  }: { isLoading?: boolean } & IconProps) => (
     <svg
       width={24}
       height={25}
@@ -370,6 +375,21 @@ export const Icons = {
         <rect x="8" y="7" width="3" height="11" rx="1" />
         <rect x="13" y="7" width="3" height="11" rx="1" />
       </g>
+
+      {isLoading && (
+        <motion.circle
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="#FB394F"
+          strokeWidth="2"
+          fill="none"
+          strokeDasharray="40"
+          strokeDashoffset="0"
+          animate={{ rotate: 360 }}
+          transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+        />
+      )}
     </svg>
   ),
   elipsis: ({ style, ...props }: IconProps) => (
